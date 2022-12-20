@@ -19,8 +19,7 @@ export class LoginComponent implements OnInit{
 
   loginUser: FormGroup = this.oFormBuilder.group({
     email: ["", [Validators.required, Validators.email]],
-    password: ["", Validators.required],
-    remenberme: [false]
+    password: ["", Validators.required]
   });
 
   logged: boolean = false;

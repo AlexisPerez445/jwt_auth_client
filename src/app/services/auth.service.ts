@@ -23,4 +23,26 @@ export class AuthService {
     });
     return this.oHttp.post<AuthResponse>(url,body, {headers: environment.headers});
   }
+
+  sendEmail(email: string): Observable<string>{
+    const url = `${environment.baseURL}/${this.authURL}/forgot-password`;
+    const body = JSON.stringify({
+      email
+    });
+    return this.oHttp.post<string>(url, body, {headers: environment.headers});
+  }
+
+  resetPassword( password: string, password2: string ): Observable<string>{
+    const url = `${environment.baseURL}/${this.authURL}/reset-password`;
+    const body = JSON.stringify({
+      password,
+      password2
+    });
+    const headers = {
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${sessionStorage.getItem("token")?.replaceAll('"', '')}`,
+    }
+    return this.oHttp.post<string>(url,body, {headers});
+  }
+
 }
