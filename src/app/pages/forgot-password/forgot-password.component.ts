@@ -20,6 +20,7 @@ export class ForgotPasswordComponent implements OnInit{
     email: ["", [Validators.required, Validators.email]]
   });
 
+  found!: boolean;
 
   ngOnInit(): void {
 
@@ -31,11 +32,29 @@ export class ForgotPasswordComponent implements OnInit{
       .subscribe({
         next: (resp: string) => {
             console.log(resp);
+            if(resp != 'user email not found'){
+                this.found = true;
+            } else{
+              this.found = false;
+            }
         },
         error: (err: HttpErrorResponse) => {
           console.log(err);
         }
       });
+    } else{
+      this.forgotPassword.markAllAsTouched();
     }
+  }
+
+  CampoNoValido(campo: string) {
+    return (
+      this.forgotPassword.controls[campo].errors &&
+      this.forgotPassword.controls[campo].touched
+    );
+  }
+
+  touched( campo: string ): boolean{
+    return this.forgotPassword.controls[campo].touched
   }
 }

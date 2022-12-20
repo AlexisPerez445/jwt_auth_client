@@ -28,23 +28,44 @@ export class ResetPasswordComponent implements OnInit {
   });
 
   token!: string;
-  ngOnInit(): void {
+  forbidden: boolean = false;
+  samePassword!: boolean;
 
+  ngOnInit(): void {
+   console.log(this.token);
   }
 
   resetPassword(){
     if(this.resetForm.valid){
-      this.oAuthService.resetPassword(this.resetForm.value.password, this.resetForm.value.password2)
+      this.oAuthService.resetPassword(this.resetForm.value.password, this.resetForm.value.password2, this.token)
       .subscribe({
         next: (resp: string) => {
           console.log(resp);
+          if(resp == 'Las contraseñas no son iguales'){
+            this.samePassword = false;
+          } else {
+            this.samePassword = true
+          }
+          this.forbidden = false;
         },
         error: (err: HttpErrorResponse) => {
+          this.forbidden = true;
           console.log(err);
         }
       })
+    } else{
+      this.resetForm.markAllAsTouched();
     }
   }
+  CampoNoValido(campo: string) {
+    return (
+      this.resetForm.controls[campo].errors &&
+      this.resetForm.controls[campo].touched
+    );
+  }
 
+  touched( campo: string ): boolean{
+    return this.resetForm.controls[campo].touched
+  }
 
 }

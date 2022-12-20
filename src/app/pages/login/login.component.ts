@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit{
   });
 
   logged: boolean = false;
+  error:boolean = false;
 
   ngOnInit(): void {
 
@@ -37,17 +38,32 @@ export class LoginComponent implements OnInit{
           console.log(resp);
           if(resp.ok){
             sessionStorage.setItem("token", resp.token);
+            this.oAuthService.stateLogin.next(true);
+            this.error = false;
             this.oRouter.navigateByUrl('/home');
+          } else{
+              this.error = true;
           }
         },
         error: (err: HttpErrorResponse) => {
+          this.error = true;
           console.log(err);
         }
       });
     } else {
-      console.log('Invalid');
+      this.loginUser.markAllAsTouched();
     }
+  }
 
+  CampoNoValido(campo: string) {
+    return (
+      this.loginUser.controls[campo].errors &&
+      this.loginUser.controls[campo].touched
+    );
+  }
+
+  touched( campo: string ): boolean{
+    return this.loginUser.controls[campo].touched
   }
 
 }
