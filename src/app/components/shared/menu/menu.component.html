@@ -10,7 +10,7 @@
         <li class="nav-item">
           <a class="nav-link" aria-current="page" routerLinkActive="active" routerLink="home">Home</a>
         </li>
-        <li class="nav-item">
+        <li *ngIf="this.logged ===false" class="nav-item">
           <a class="nav-link" aria-current="page" routerLinkActive="active" routerLink="login/">Login</a>
         </li>
         <li *ngIf="this.logged" class="nav-item">

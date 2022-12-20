@@ -60,6 +60,7 @@ export class AuthService {
           this.stateLogin.next(true);
         } else {
           this.stateLogin.next(false);
+          this.logOut();
         }
       },
       error: (err: HttpErrorResponse) => {
