@@ -68,7 +68,6 @@ export class AuthService {
     });;
   }
 
-
   logOut(){
     if(sessionStorage.getItem("token") != null){
         sessionStorage.removeItem("token");
