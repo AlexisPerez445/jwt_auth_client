@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthResponse, CheckTokenResponse } from '../interfaces/auth-response.interface';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +12,11 @@ export class AuthService {
 
   constructor(
     private oHttp: HttpClient
-  ) { }
+  ) { this.checkToken();}
 
   stateLogin = new BehaviorSubject(false);
   loginStatus = this.stateLogin.asObservable();
-  authURL = 'auth'
+  authURL = 'auth';
 
   login(email: string, password: string): Observable<AuthResponse>{
     const url = `${environment.baseURL}/${this.authURL}/login`;
@@ -66,7 +67,7 @@ export class AuthService {
       error: (err: HttpErrorResponse) => {
         this.stateLogin.next(false);
       }
-    });;
+    });
   }
 
   logOut(){
