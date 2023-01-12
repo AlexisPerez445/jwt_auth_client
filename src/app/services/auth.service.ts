@@ -12,7 +12,7 @@ export class AuthService {
 
   constructor(
     private oHttp: HttpClient
-  ) { this.checkToken();}
+  ) { }
 
   stateLogin = new BehaviorSubject(false);
   loginStatus = this.stateLogin.asObservable();
